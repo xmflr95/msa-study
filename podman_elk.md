@@ -1,14 +1,14 @@
 # Podman Network
-ELK 구성 중 podman에서 host와 pod(하나 이상의 컨테이너 모음)간의 네트워크 연결이 필요해짐
-pod에 네트워크를 연결하는 방식으로 해결
-pod 내부 container의 통신은 localhost(127.0.0.1)로 할 수 있고 
-외부 통신은 container host의 network(virtual network)가 pod에 연결함으로 container host ip주소로 접근 가능해짐
-
-- 구성 순서
-  1. Dockerfile 생성(+ shell 구성), container 이미지 생성
-  2. podman network 생성
-  3. podman pod 생성(+ 네트워크 연결)
-  4. podman container 생성(+ pod에 연결)
+ELK 구성 중 podman에서 host와 pod(하나 이상의 컨테이너 모음)간의 네트워크 연결이 필요해짐  
+pod에 네트워크를 연결하는 방식으로 해결  
+pod 내부 container의 통신은 localhost(127.0.0.1)로 할 수 있고  
+외부 통신은 container host의 network(virtual network)가 pod에 연결함으로 container host ip주소로 접근 가능해짐    
+<br/>
+> 구성 순서
+> 1. Dockerfile 생성(+ shell 구성), container 이미지 생성
+> 2. podman network 생성
+> 3. podman pod 생성(+ 네트워크 연결)
+> 4. podman container 생성(+ pod에 연결)
 
 ## 1. Dockerfile 생성
 
@@ -213,7 +213,7 @@ podman pod inspect pod-elk # [pod_name]
      "NumContainers": 1,
      "Containers": [
           {
-							# infra 생성 설정을 건드리지 않으면 자동으로 생성되는 듯함
+               # infra 생성 설정을 건드리지 않으면 자동으로 생성되는 듯함
                "Id": "1f993317df8a7b932b5c0be7d859c8a5b067b6a91fcec0067309bfbd6ae6c396",
                "Name": "513002097c99-infra",
                "State": "running"
@@ -235,7 +235,7 @@ podman run -idt --pod pod-elk -e TZ=Asia/Seoul --name elk-l elk-l:latest
 podman run -idt --pod pod-elk -e TZ=Asia/Seoul --name elk-k elk-k:latest
 ```
 
-모두 정상적으로 network에 연결되면 아래처럼 pod에 연결된 컨테이너로 나타남
+모두 정상적으로 network에 연결되면 아래처럼 pod에 연결된 컨테이너로 나타남  
 `podman pod inspect [pod_name]` 명령어 실행
 ```shell
 # ...inspect content
