@@ -2,19 +2,19 @@
 Logstash filter 세팅 기록 자료입니다.  
 
 #### 구성
-Filebeat - Kafka - Logstash - Elasticsearch - Kibana  
-Kafka를 Filebeat와 Logstash사이에 배치함으로써 Logstash의 부하를 막고 높은 확장성을 가져갈 수 있게됨.  
+Filebeat - **Kafka** - Logstash - Elasticsearch - Kibana  
+Kafka를 Filebeat와 Logstash사이에 배치함으로써 Logstash의 부하를 막고 높은 **확장성**을 가져갈 수 있게됨.  
 (+ Logstash의 경우 데이터 parsing도중 에러 발생 시 최악의 경우, **데이터 손실**이 발생, 그 이전에 Kafka를 두어 신뢰성을 보장하도록함.)
 
 ## FileBeat
-Filebeat를 Producer로 사용하도록 세팅
+Filebeat를 **Producer**로 사용하도록 세팅
 ```yml
 filebeat.inputs:
 - type: log
   enabled: true
   paths:
-    - C:\log\ibks-tda-iam.json*.log
-    - C:\log\ibks-tda-tcn.json*.log
+    - C:\log\tda-iam.json*.log
+    - C:\log\tda-tcn.json*.log
   
   # multiline 설정
   multiline.pattern: '^{'
@@ -37,7 +37,7 @@ output.kafka:
 ```
 
 ## Logstash
-Logstash를 Consumer로 사용되도록 세팅
+Logstash를 **Consumer**로 사용되도록 세팅
 ```ruby
 input {
   # tcp settings
@@ -165,11 +165,11 @@ output {
 ```
 
 ## 진행과정 상세
-filebeat에서 json으로 내보내진 로그를 읽어 Kafka로 보내면 아래와 같은 데이터가 카프카에 "message"로 보내짐  
+filebeat에서 json으로 내보내진 로그를 읽어 Kafka로 보내면 아래와 같은 데이터가 Kafka에 "message"로 보내짐  
 불필요한 데이터가 많기 때문에 필터링이 필요함
 
 ```txt
-{"@timestamp":"2022-05-16T05:52:45.529Z","@metadata":{"beat":"filebeat","type":"_doc","version":"7.12.0"},"message":"{\"@timestamp\":\"2022-05-16T05:52:45.324Z\",\"severity\":\"INFO\",\"service\":\"ibks-tda-iam\",\"trace\":\"\",\"span\":\"\",\"parent\":\"\",\"exportable\":\"\",\"pid\":\"3108\",\"thread\":\"RMI TCP Connection(6)-127.0.0.1\",\"class\":\"com.netflix.discovery.DiscoveryClient\",\"rest\":\"Completed shut down of DiscoveryClient\"}","log":{"offset":79242,"file":{"path":"C:\\log\\ibks-tda-iam.json.log"}},"input":{"type":"log"},"ecs":{"version":"1.8.0"},"host":{"name":"DESKTOP-EECQ664","architecture":"x86_64","os":{"name":"Windows 10 Home","kernel":"10.0.19041.1706 (WinBuild.160101.0800)","build":"19044.1706","type":"windows","platform":"windows","version":"10.0","family":"windows"},"id":"bca4dce9-1abb-4cdf-b1d3-a86fda32b83c","ip":["fe80::897c:9f06:48dd:2a8a","192.168.56.1","fe80::e576:b64b:f48d:d02e","169.254.208.46","fe80::7851:8578:7700:27f4","169.254.39.244","fe80::3dbb:bf5f:efff:6c02","169.254.108.2","fe80::dcaf:80bb:b9ec:f26b","192.168.2.220","fe80::c09e:8cad:253b:20a7","172.31.0.1"],"mac":["0a:00:27:00:00:34","08:71:90:27:e8:fe","08:71:90:27:e8:ff","0a:71:90:27:e8:fe","00:e0:4c:36:1d:da","00:15:5d:ff:04:8a"],"hostname":"DESKTOP-EECQ664"},"agent":{"id":"3ca32012-e0da-4a62-b918-7f503dd7a695","name":"DESKTOP-EECQ664","type":"filebeat","version":"7.12.0","hostname":"DESKTOP-EECQ664","ephemeral_id":"c8dad804-a3ba-47a7-9a64-7b077cda955b"}}
+{"@timestamp":"2022-05-16T05:52:45.529Z","@metadata":{"beat":"filebeat","type":"_doc","version":"7.12.0"},"message":"{\"@timestamp\":\"2022-05-16T05:52:45.324Z\",\"severity\":\"INFO\",\"service\":\"tda-iam\",\"trace\":\"\",\"span\":\"\",\"parent\":\"\",\"exportable\":\"\",\"pid\":\"3108\",\"thread\":\"RMI TCP Connection(6)-127.0.0.1\",\"class\":\"com.netflix.discovery.DiscoveryClient\",\"rest\":\"Completed shut down of DiscoveryClient\"}","log":{"offset":79242,"file":{"path":"C:\\log\\tda-iam.json.log"}},"input":{"type":"log"},"ecs":{"version":"1.8.0"},"host":{"name":"DESKTOP-EECQ664","architecture":"x86_64","os":{"name":"Windows 10 Home","kernel":"10.0.19041.1706 (WinBuild.160101.0800)","build":"19044.1706","type":"windows","platform":"windows","version":"10.0","family":"windows"},"id":"bca4dce9-1abb-4cdf-b1d3-a86fda32b83c","ip":["fe80::897c:9f06:48dd:2a8a","192.168.56.1","fe80::e576:b64b:f48d:d02e","169.254.208.46","fe80::7851:8578:7700:27f4","169.254.39.244","fe80::3dbb:bf5f:efff:6c02","169.254.108.2","fe80::dcaf:80bb:b9ec:f26b","192.168.2.220","fe80::c09e:8cad:253b:20a7","172.31.0.1"],"mac":["0a:00:27:00:00:34","08:71:90:27:e8:fe","08:71:90:27:e8:ff","0a:71:90:27:e8:fe","00:e0:4c:36:1d:da","00:15:5d:ff:04:8a"],"hostname":"DESKTOP-EECQ664"},"agent":{"id":"3ca32012-e0da-4a62-b918-7f503dd7a695","name":"DESKTOP-EECQ664","type":"filebeat","version":"7.12.0","hostname":"DESKTOP-EECQ664","ephemeral_id":"c8dad804-a3ba-47a7-9a64-7b077cda955b"}}
 ```
 
 ```ruby
@@ -213,7 +213,7 @@ json {
     "span" => "",
     "exportable" => "",
     "severity" => "INFO",
-    "service" => "ibks-tda-iam",
+    "service" => "tda-iam",
     "trace" => "",
     "@timestamp" => "2022-05-16T05:20:37.261Z"
   }
@@ -257,7 +257,7 @@ mutate {
   "trace" => "",
   "span" => "",
   "parent" => "",
-  "service" => "ibks-tda-tcn",
+  "service" => "tda-tcn",
   "timestamp" => "2022-05-16T06:45:38.527Z"
 }
 ```
