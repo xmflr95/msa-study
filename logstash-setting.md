@@ -200,7 +200,7 @@ json {
 3. 불필요한 내용을 담은 "doc"필드는 삭제
 
 > 결과
-```json
+```ruby
 {
   "@version" => "1",
   "@timestamp" => 2022-05-16T05:20:37.261Z,
@@ -244,7 +244,7 @@ mutate {
 2. "logs" 필드 삭제
 
 > 결과
-```json
+```ruby
 {
   "@version" => "1",
   "class" => "c.n.d.s.r.aws.ConfigClusterResolver",
