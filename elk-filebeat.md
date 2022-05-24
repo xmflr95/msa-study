@@ -149,7 +149,11 @@ monitoring.ui.container.elasticsearch.enabled: true
 # filebeat 실행
 systemctl start filebeat
 systemctl status filebeat
+# windows, filebeat 설치 경로에서 실행
+.\filebeat.exe -c .\filebeat.yml
+.\filebeat.exe -c .\filebeat.yml -e -v # 옵션
 ```
+
 - **filebeat.yml** 설정(간단 설정)
 ```yml
 # ============================== Filebeat inputs ===============================
