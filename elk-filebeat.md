@@ -123,7 +123,31 @@ output {
         codec => rubydebug
     }
 }
+```  
+
+> 이후 추가 사항  
+
+logstash에서 elasticsearch로 데이터 전송 시 중복 수집되는 경우가 발생(정확한 원인은 찾아야함).
+logstash의 fingerprint 필터와 elasticsearch 전송시 `document_id`를 지정하는 것으로 중복 제거는 가능함
+```ruby
+fingerprint {
+  method => "SHA256"
+  source => ["timestamp", "rest"]
+  target => "fingerprint" # _source fields에 항목 추가됨
+  concatenate_sources => true
+}
+# ... settings ...
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "logkafka-%{+YYYY.MM.dd}"
+    document_id => "%{fingerprint}"  # 중복 제거(Deduplication)
+    ecs_compatibility => disabled
+  } 
+  stdout { codec => rubydebug } 
+}
 ```
+
 ## Kibana
 ### 실행방법
 kibana는 elasticsearch로부터 얻은 데이터를 다양한 방법으로 시각화 가능
@@ -215,3 +239,10 @@ processors:
 # etc options...
 ```
 
+## Container Setting
+### filebeat
+filebeat.yml이 권한 문제로 작동하지 않을때 사용
+```bash
+sudo chown root ./filebeat/filebeat.yml
+sudo chmod go-w ./filebeat/filebeat.yml
+```

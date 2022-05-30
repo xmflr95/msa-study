@@ -70,7 +70,7 @@ GET cafe/_search
   ]
 }
 ```
-위의 결과를 보면 'iced'가 들어간 모든 결과가 조회되는 것을 볼 수 있다.  
+위의 결과를 보면 "iced"가 들어간 모든 결과가 조회되는 것을 볼 수 있다.  
 `match`의 검색 조건은 기본적으로 **OR**이다. **AND**를 사용하고 싶은 경우엔 `operator`옵션을 추가한다.
 
 ```js
@@ -173,7 +173,7 @@ GET cafe/_search
   ]
 }
 ```
-실제로 'iced cafe'를 포함하고 있는 2개의 결과만 Hit된 것을 볼 수 있다.
+실제로 "iced cafe"를 포함하고 있는 2개의 결과만 Hit된 것을 볼 수 있다.
 ### match_phrase
 원하는 검색어의 공백을 포함해 정확히 일치하는 내용 검색이 가능하다.
 ```js
@@ -244,7 +244,7 @@ GET cafe/_search
   ]
 }
 ```
-'iced'와 'latte' 사이에 'cafe'가 없지만 slop값만큼 단어가 끼어드는 것이 허용됨을 확인 가능
+"iced"와 "latte" 사이에 "cafe"가 없지만 slop값만큼 단어가 끼어드는 것이 허용됨을 확인 가능
 
 ## Term Query
 
