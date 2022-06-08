@@ -43,7 +43,7 @@ Kafka 설치 및 운영은 윈도우보다 리눅스, 유닉스 계열에서 진
 
 1. zookeeper 서버 실행
 ```bash
-$KAFKA_HOME/bin/zookeeper-server-start.sh  $KAFKA_HOME/config/zookeeper.properties
+$KAFKA_HOME/bin/zookeeper-**server**-start.sh  $KAFKA_HOME/config/zookeeper.properties
 ```
 2. kafka 서버 실행
 ```bash
@@ -55,12 +55,23 @@ $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
 ```bash
 # Topic 생성
 $KAFKA_HOME/bin/kafka-topics.sh --create --topic ${topic_name} --bootstrap-server localhost:9092
+# partition, replication 설정
+$KAFKA_HOME/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 --topic ${topic_name}
 # Topic 목록 확인
 $KAFKA_HOME/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
 # Topic 정보 확인
 $KAFKA_HOME/bin/kafka-topics.sh --describe --topic ${topic_name} --bootstrap-server localhost:9092
 # Topic 삭제(완전 삭제되었는지 확인 필요)
 $KAFKA_HOME/bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic ${topic_name}
+
+# Consumer Group 리스트
+$KAFKA_HOME/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+# Consumer Group 정보
+$KAFKA_HOME/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group ${group_name} --describe
+# Consumer Group Offset 초기화 --to-earliest)
+$KAFKA_HOME/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group ${group_name} --topic ${topic_name} --reset-offsets --to-earliest --execute
+# Offset 설정
+$KAFKA_HOME/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group ${group_name} --topic ${topic_name} --reset-offsets --to-offset 10 --execute
 ```  
 
 ### Kafka Topic 메시지 명령어

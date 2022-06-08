@@ -266,7 +266,7 @@ mutate {
 ###### 진행할 때 발생했던 상황
 1. `"timestamp" => "%{[logs][@timestamp]}"`로 `@timestamp` 필드를 재선언하려했으나 `@timestamp`는 date값이 아니면 문자열로는 할당이 불가능하고 ruby코드를 이용해 변환 후 할당이 가능한듯 보임, 따라서 이번 경우엔 "timestamp"로 선언 후 저장시킴.  
 2. 임의로 `@timestamp` 필드를 선삭제 후 할당할 경우 elasticsearch로 보내는 index에 적용될 시스템 time값이 삭제되어 elasticsearch index값 "logkafka-%{+YYYY.MM.dd}"에서 뒤의 date값이 사라짐,   
-꼭 삭제가 필요한 경우 먼저 `mutate`에서 `add_field`를 이용해 "[@metadata][field_name]"으로 선언 후 index값에 해당 값을 사용해야함
+꼭 삭제가 필요한 경우 먼저 `mutate`에서 `add_field`를 이용해 "[@metadata][field_name]"으로 선언 후 index값에 해당 값을 사용해야함  
 
 > 이후 추가 사항  
 

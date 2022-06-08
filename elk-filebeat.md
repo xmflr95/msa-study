@@ -7,8 +7,8 @@
 ELK는 위의 그림처럼 세 가지 기술로 구성된다.
 
 * **Elasticsearch** : 로그 저장 및 검색 ([DownLoad](https://www.elastic.co/kr/downloads/elasticsearch))
-* **Logstash** : 로그 수집 엔진 ([DownLoad](https://www.elastic.co/kr/downloads/kibana))
-* **Kibana** : 로그 시각화 및 관리 ([DownLoad](https://www.elastic.co/kr/downloads/logstash))
+* **Logstash** : 로그 수집 엔진 ([DownLoad](https://www.elastic.co/kr/downloads/logstash))
+* **Kibana** : 로그 시각화 및 관리 ([DownLoad](https://www.elastic.co/kr/downloads/kibana))
 
 좀 더 세부적으로는 아래와 같은 기능을 담당한다.
 
@@ -45,14 +45,15 @@ ELK는 각자의 기능을 담당하는 모듈을 붙여서 구성을 한다. �
 - **FileBeat** : 로그 수집기 ([DownLoad](https://www.elastic.co/kr/downloads/beats/filebeat))  
 
 ## MSA ELK 구상도
-### 기본 구성
+### 기본 구성(ELK Stack)
 - LogFile -> Logstash -> Elasticsearch <- Kibana  
 
 ![elk_basic.png](/img/elk/elk_basic.png)  
 
-### Filebeat를 추가한 구성
+### Elastic Stack
 - LogFile -> Filebeat -> Logstash -> Elasticsearch <- Kibana  
 - Filebeat를 추가해 Logstash의 오버헤드를 줄이는 구성
+- Filebeat를 추가한 구성을 Elastic Stack이라고 한다.
 
 ![elk_filebeat.png](/img/elk/elk_filebeat.png)  
 
