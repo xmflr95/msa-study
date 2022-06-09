@@ -2,7 +2,7 @@
 로깅, 모니터링 관련 자료입니다.
 
 ## ELK Stack의 구성
-![elk_stack.png](/img/elk/elk_stack.png)
+![elk_stack.png](/img/elk/elk_stack_new.png)
 
 ELK는 위의 그림처럼 세 가지 기술로 구성된다.
 
@@ -48,14 +48,14 @@ ELK는 각자의 기능을 담당하는 모듈을 붙여서 구성을 한다. �
 ### 기본 구성(ELK Stack)
 - LogFile -> Logstash -> Elasticsearch <- Kibana  
 
-![elk_basic.png](/img/elk/elk_basic.png)  
+![elk_basic.png](/img/elk/basic_elk_flow.png)  
 
 ### Elastic Stack
 - LogFile -> Filebeat -> Logstash -> Elasticsearch <- Kibana  
 - Filebeat를 추가해 Logstash의 오버헤드를 줄이는 구성
 - Filebeat를 추가한 구성을 Elastic Stack이라고 한다.
 
-![elk_filebeat.png](/img/elk/elk_filebeat.png)  
+![elk_filebeat.png](/img/elk/elastic_stack_new.png)  
 
 ### 이외 가능한 구성
 1. 큐(Queue)를 이용한 로그 전달 구성 (Queue의 위치를 어디로 정할지는 생각할 요소)
@@ -65,6 +65,10 @@ Kafka 를 도입하는 많은 이유 중 하나는 트래픽이 몰리면 Logsta
 운영 상 로그를 남길때 Elasticsearch가 꺼져있다면 로그가 전달되지 못함,  
 전달되지 못한 로그는 Buffer가 가지게되는 경우가 발생하고 Filebeat와 Logstash가 해당 역할에서 부족한 부분이 있음.  
 *) 일반적으로 최소 주키퍼 3대, 카프카 3대로 구성  
+
+> 카프카를 활용할 경우 예상 흐름도
+
+![elastic_stack_kafka.png](/img/elk/elastic_kafka_new.png)
 
 ## Elasticsearch
 ### 실행방법
