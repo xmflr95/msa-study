@@ -99,7 +99,7 @@ $LOGSTASH_HOME/bin/logstash.sh -f $LOGSTASH_HOME/config/logstash.conf 	# linux
 $LOGSTASH_HOME\bin\logstash.bat -f $LOGSTASH_HOME\config\logstash.conf	# windows
 ```
 2. **logstash.conf** 설정 파일(간단 세팅)
-```conf
+```ruby
 input {
     tcp {
         # host => "13.124.248.164" # 호스트 설정
