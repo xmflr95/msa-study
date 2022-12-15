@@ -43,7 +43,7 @@ Kafka 설치 및 운영은 윈도우보다 리눅스, 유닉스 계열에서 진
 
 1. zookeeper 서버 실행
 ```bash
-$KAFKA_HOME/bin/zookeeper-**server**-start.sh  $KAFKA_HOME/config/zookeeper.properties
+$KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.properties
 ```
 2. kafka 서버 실행
 ```bash

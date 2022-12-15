@@ -170,6 +170,9 @@ kubeadm join 15.164.212.86:6443 --token 189wu5.z281lji6w2ijt7vn --discovery-toke
 # public join 일반 (권장?)
 kubeadm join 15.164.212.86:6443 --token 189wu5.z281lji6w2ijt7vn --discovery-token-ca-cert-hash sha256:5687ddd78a87aa6490ce86595ddc6931d95793c01f27836846b0102db1b84609
 
+kubeadm join 15.164.212.86:6443 --token h6nons.dmcxioow986fi7ok --discovery-token-ca-cert-hash sha256:41ab85c974a95e7657199ee8a43c03e1aee91b59014947aedcd66f8fadfbe32d
+
+# cat /etc/hosts
 172.31.35.102 k8s-master
 3.35.136.181 k8s-worker1 k8s-worker1
 20.41.105.80 azure-worker k8s-worker2
@@ -249,4 +252,21 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 kubectl drain ip-172-31-13-164.ap-northeast-2.compute.internal --delete-local-data --force --ignore-daemonsets
 # 노드 삭제
 kubectl delete node ip-172-31-13-164.ap-northeast-2.compute.internal
+
+# coredns 에러 발생시(무한 컨테이너 생성 대기)
+# 1. master/node1/node2에서 kubeadm reset 실행 후 systemctl restart kubelet
+kubeadm reset 
+systemctl restart kubelet
+
+# 2. cni 관련 디렉토리 파일 삭제(마스터에서만)
+rm -rf /etc/cni/net.d/*
+rm -rf $HOME/.kube/config
+
+# 3. 마스터에서 kubeadm init 실행 후 cni 설치
+kubeadm init --apiserver-advertise-address=192.168.56.200
+kubectl apply -f "https://cloud.weave.works/k8x/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+kubectl delete -f "https://cloud.weave.works/k8x/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+# 4. 파드 확인
+kubectl get pod --all-namespace
 ```
